@@ -1,0 +1,101 @@
+---
+- hosts: all
+  remote_user: root
+
+  tasks:
+  - name: Install the latest version of the screen utility.
+    yum:
+      name: screen
+      state: latest
+  - name: basic pkgs
+    yum: pkg={{item}} state=latest
+    with_items:
+     - coreutils
+     - file
+     - patch
+     - which
+     - most
+  - name: compression pkgs
+    yum: pkg={{item}} state=latest
+    with_items:
+     - bzip2
+     - bzip2-libs
+     - bzip2-devel
+     - zip
+     - unzip
+  - name: editors
+    yum: pkg={{item}} state=latest
+    with_items:
+     - vim
+     - emacs
+  - name: git
+    yum:
+        name: git
+        state: latest
+  - name: file sync
+    yum: pkg={{item}} state=latest
+    with_items:
+     - wget
+     - curl
+     - libcurl
+     - libcurl-devel
+     - rsync
+  - name: compilers
+    yum: pkg={{item}} state=latest
+    with_items:
+     - gcc
+     - gcc-c++
+     - gcc-gfortran
+  - name: build tools
+    yum: pkg={{item}} state=latest
+    with_items:
+     - make
+     - m4
+     - automake
+     - autoconf
+     - libtool
+     - libtool-ltdl
+     - libtool-ltdl-devel
+     - pkgconfig
+  - name: debuggers
+    yum: pkg={{item}} state=latest
+    with_items:
+     - gdb
+     - lldb
+     - valgrind
+  - name: low level program binary manipulation
+    yum: pkg={{item}} state=latest
+    with_items:
+     - binutils
+     - binutils-devel
+     - elfutils-libelf
+     - elfutils-libelf-devel
+     - libdwarf
+     - libdwarf-tools
+     - libdwarf-devel
+  - name: unwind low level tracing
+    yum: pkg={{item}} state=latest
+    with_items:
+     - libunwind
+     - libunwind-devel
+  - name: pAPI
+    yum: pkg={{item}} state=latest
+    with_items:
+     - papi
+     - papi-devel
+     - papi-static
+  - name: perf
+    yum: pkg={{item}} state=latest
+    with_items:
+     - perf
+     - libpfm
+     - libpfm-devel
+     - libpfm-static
+     - python-perf
+     - libpfm-python
+  - name: mpich-3.2
+    yum: pkg={{item}} state=latest
+    with_items:
+     - mpich-3.2
+     - mpich-3.2-devel
+     - mpich-3.2-autoload

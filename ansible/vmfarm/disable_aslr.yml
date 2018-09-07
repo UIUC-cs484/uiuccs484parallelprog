@@ -1,0 +1,10 @@
+---
+- hosts: all
+  remote_user: root
+
+  tasks:
+   - name: disable ASLR
+      copy:
+          dest: "/etc/sysctl.d/01-disable-aslr.conf"
+          content: |
+                     kernel.randomize_va_space = 0
