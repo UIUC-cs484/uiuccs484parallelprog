@@ -4,7 +4,7 @@
 
   tasks:
    - name: disable ASLR
-      copy:
-          dest: "/etc/sysctl.d/01-disable-aslr.conf"
-          content: |
-                     kernel.randomize_va_space = 0
+     copy:
+       content: 'kernel.randomize_va_space = 0
+'
+       dest: '/etc/sysctl.d/01-disable-aslr.conf'

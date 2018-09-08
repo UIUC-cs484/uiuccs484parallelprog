@@ -1,0 +1,19 @@
+---
+- hosts: all
+  remote_user: root
+
+  tasks:
+  - name: Download CMake installer
+    get_url:
+      url: https://cmake.org/files/v3.12/cmake-3.12.1-Linux-x86_64.sh
+      dest: /tmp/cmake-3.12.1-Linux-x86_64.sh
+      mode: 0700
+  - name: Install CMake
+    shell: bash /tmp/cmake-3.12.1-Linux-x86_64.sh --prefix=/usr/local/ --skip-license
+    args:
+      chdir: /tmp
+      creates: /usr/local/bin/cmake
+  - name: Remove installer
+    file:
+      state: absent
+      path: "/tmp/cmake-3.12.1-Linux-x86_64.sh"
