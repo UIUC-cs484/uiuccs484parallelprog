@@ -1,0 +1,22 @@
+---
+- hosts: admin
+  remote_user: root
+  
+  tasks:
+  - name: Get HPCToolkit externals
+    git:
+      repo: https://github.com/HPCToolkit/hpctoolkit-externals.git
+      dest: /tmp/hpctoolkit-externals
+  - name: Configure HPCToolkit externals
+    shell: bash ./configure --prefix=/opt/hpctoolkit/externals
+    args:
+      chdir: /tmp/hpctoolkit-externals
+      creates: /tmp/hpctoolkit-externals/Makefile
+  - name: Compile and install HPCToolkit externals
+    make:
+      chdir: /tmp/hpctoolkit-externals
+      target: install
+  - name: HPCToolkit externals package
+    archive:
+      path: /opt/hpctoolkit
+      dest: /tmp/hpctoolkit-local-dist.tgz
