@@ -1,0 +1,72 @@
+---
+- hosts: admin
+  remote_user: root
+
+  tasks:
+  - name: Get HPCToolkit externals
+    git:
+      repo: https://github.com/HPCToolkit/hpctoolkit-externals.git
+      dest: /tmp/hpctoolkit-externals
+  - name: Configure HPCToolkit externals
+    shell: bash ./configure --prefix=/opt/hpctoolkit/externals
+    args:
+      chdir: /tmp/hpctoolkit-externals
+      creates: /tmp/hpctoolkit-externals/Makefile
+  - name: Compile and install HPCToolkit externals
+    make:
+      chdir: /tmp/hpctoolkit-externals
+      target: install
+
+- hosts: admin
+  remote_user: root
+
+  tasks:
+  - name: Get libmonitor for HPCToolkit
+    git:
+        repo: https://github.com/HPCToolkit/libmonitor.git
+        dest: /tmp/libmonitor
+  - name: Configure libmonitor
+    shell: bash ./configure --prefix=/opt/hpctoolkit
+    args:
+      chdir: /tmp/libmonitor
+      creates: /tmp/libmonitor/Makefile
+  - name: Compile and install libmonitor
+    make:
+      chdir: /tmp/libmonitor
+      target: install
+
+- hosts: admin
+  remote_user: root
+
+  tasks:
+  - name: Get HPCToolkit
+    git:
+        repo: https://github.com/HPCToolkit/hpctoolkit
+        dest: /tmp/hpctoolkit
+  - name: Configure HPCToolkit
+    shell: MPICC=mpicc MPIF77=mpif77 ./configure --with-externals=/opt/hpctoolkit/externals --with-bzip=/usr --with-papi=/usr
+    args:
+        chdir: /tmp/hpctoolkit
+        creates: /tmp/hpctoolkit/Makefile
+  - name: Compile and install HPCToolkit
+    make:
+        chdir: /tmp/hpctoolkit
+        target: install
+
+- hosts: admin
+  remote_user: root
+
+  tasks:
+  - name: Package hpctoolkit
+    archive:
+      path: /opt/hpctoolkit
+      dest: /tmp/hpctoolkit-local-dist.tgz
+
+- hosts: students
+  remote_user: root
+
+  tasks:
+  - name: Install HPCToolkit externals
+    unarchive:
+      src: /tmp/hpctoolkit-local-dist.tgz
+      dest: /opt/
