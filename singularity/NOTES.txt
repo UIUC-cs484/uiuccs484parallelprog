@@ -1,0 +1,11 @@
+#authentication to dockerhub
+
+somehow, building from the commandline from docker directly doesn't work
+(authentication error)
+
+but using a Singularity file to build, and basing on the dockerhub repo, works
+fine.
+
+https://singularity.lbl.gov/docs-docker#authentication-in-the-singularity-build-file
+
+

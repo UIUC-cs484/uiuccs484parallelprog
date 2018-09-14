@@ -43,7 +43,7 @@ RUN git clone https://github.com/HPCToolkit/libmonitor.git \
 
 RUN git clone https://github.com/HPCToolkit/hpctoolkit \
 	&& pushd hpctoolkit \
-	&& MPICC=mpicc MPIF77=mpif77 ./configure --with-externals=/opt/hpctoolkit/externals --with-bzip=/usr --with-papi=/usr \
+	&& MPICC=mpicc MPIF77=mpif77 ./configure --prefix=/opt/hpctoolkit --with-libmonitor=/opt/hpctoolkit --with-externals=/opt/hpctoolkit/externals --with-bzip=/usr --with-papi=/usr \
 	&& make && make install && popd && rm -rf hpctoolkit
 
 

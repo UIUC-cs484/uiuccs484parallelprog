@@ -44,7 +44,7 @@
         repo: https://github.com/HPCToolkit/hpctoolkit
         dest: /tmp/hpctoolkit
   - name: Configure HPCToolkit
-    shell: MPICC=mpicc MPIF77=mpif77 ./configure --with-externals=/opt/hpctoolkit/externals --with-bzip=/usr --with-papi=/usr
+    shell: MPICC=mpicc MPIF77=mpif77 ./configure --prefix=/opt/hpctoolkit --with-libmonitor=/opt/hpctoolkit --with-externals=/opt/hpctoolkit/externals --with-bzip=/usr --with-papi=/usr
     args:
         chdir: /tmp/hpctoolkit
         creates: /tmp/hpctoolkit/Makefile
