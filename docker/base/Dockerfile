@@ -49,4 +49,3 @@ RUN git clone https://github.com/HPCToolkit/hpctoolkit \
 
 VOLUME ["/mnt/hostshared"]
 
-#CMD ["echo","Hello world"]
