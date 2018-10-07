@@ -1,2 +1,2 @@
 Bootstrap: docker
-From: uiuccs484prallelprog/cs484_base:latest
+From: uiuccs484parallelprog/cs484_base:latest
