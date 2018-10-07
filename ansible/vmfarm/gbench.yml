@@ -1,0 +1,57 @@
+---
+- hosts: admin
+  remote_user: root
+
+  tasks:
+  - name: Create gbench build directory
+    file:
+      path: /tmp/gbench/build
+      state: directory
+      mode: 700
+  - name: Get Google Test
+    get_url:
+      url: https://github.com/google/benchmark/archive/v1.4.1.tar.gz
+      dest: /tmp/gbench/v1.4.1.tar.gz
+  - name: Open that archive
+    unarchive:
+      src: /tmp/gbench/v1.4.1.tar.gz
+      dest: /tmp/gbench/
+  - name: Prepare to build
+    shell: cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX:PATH=/usr ../benchmark-1.4.1
+    args:
+      chdir: /tmp/gbench/build
+      creates: /tmp/gbench/build/Makefile
+  - name: Build google benchark
+    make:
+      chdir: /tmp/gbench/build
+      target: all
+  - name: Package gbench
+    archive:
+      path: /tmp/gbench/build
+      dest: /tmp/gbench/build.tgz
+  - name: Install gbench
+    make:
+      chdir: /tmp/gbench/build
+      target: install
+
+- hosts: students
+  remote_user: root
+
+  tasks:
+  - name: Create gbench build directory
+    file:
+      path: /tmp/gbench/
+      state: directory
+      mode: 700
+  - name: Unarchive Google Benchmark
+    unarchive:
+      src: /tmp/gbench/build.tgz
+      dest: /tmp/gbench
+  - name: Need source too
+    unarchive:
+        src: /tmp/gbench/v1.4.1.tar.gz
+        dest: /tmp/gbench
+  - name: Install googletest
+    make:
+      chdir: /tmp/gbench/build
+      target: install

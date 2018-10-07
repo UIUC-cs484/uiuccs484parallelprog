@@ -1,0 +1,57 @@
+---
+- hosts: admin
+  remote_user: root
+
+  tasks:
+  - name: Create gtest build directory
+    file:
+      path: /tmp/gtest/build
+      state: directory
+      mode: 700
+  - name: Get Google Test
+    get_url:
+      url: https://github.com/google/googletest/archive/release-1.8.1.tar.gz
+      dest: /tmp/gtest/release-1.8.1.tar.gz
+  - name: Open that archive
+    unarchive:
+      src: /tmp/gtest/release-1.8.1.tar.gz
+      dest: /tmp/gtest/
+  - name: Prepare to build
+    shell: cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX:PATH=/usr ../googletest-release-1.8.1
+    args:
+      chdir: /tmp/gtest/build
+      creates: /tmp/gtest/build/Makefile
+  - name: Build googletest
+    make:
+      chdir: /tmp/gtest/build
+      target: all
+  - name: Package gtest
+    archive:
+      path: /tmp/gtest/build
+      dest: /tmp/gtest/build.tgz
+  - name: Install googletest
+    make:
+      chdir: /tmp/gtest/build
+      target: install
+
+- hosts: students
+  remote_user: root
+
+  tasks:
+  - name: Create gtest build directory
+    file:
+      path: /tmp/gtest/
+      state: directory
+      mode: 700
+  - name: Unarchive Google Test
+    unarchive:
+      src: /tmp/gtest/build.tgz
+      dest: /tmp/gtest
+  - name: Need source too
+    unarchive:
+        src: /tmp/gtest/release-1.8.1.tar.gz
+        dest: /tmp/gtest
+  - name: Install googletest
+    make:
+      chdir: /tmp/gtest/build
+      target: install
