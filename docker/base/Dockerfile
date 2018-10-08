@@ -22,6 +22,13 @@ RUN yum update -y \
 	&& yum install -y mpich-3.2 mpich-3.2-devel mpich-3.2-autoload \
 && yum clean all && rm -rf /var/cache/yum
 
+#A newer version of git is required
+RUN yum update -y \
+	&& yum install -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl-ExtUtils-MakeMaker \
+&& yum clean all && rm -rf /var/cache/yum \
+&& cd ${HOME} && wget https://www.kernel.org/pub/software/scm/git/git-2.19.1.tar.gz && tar -zxvof git-2.19.1.tar.gz \
+&& cd git-2.19.1 && ./configure --prefix=/usr && make install && cd .. && rm -rf git-2.19.1 git-2.19.1.tar.gz
+
 #this important line disables ASLR, which while good for security, causes a problem for debugging.
 #https://askubuntu.com/a/318476
 RUN echo "kernel.randomize_va_space = 0" > /etc/sysctl.d/01-disable-aslr.conf
