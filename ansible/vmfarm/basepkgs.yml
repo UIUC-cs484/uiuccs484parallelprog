@@ -14,7 +14,7 @@
      - file
      - patch
      - which
-     - most
+     - less
   - name: compression pkgs
     yum: pkg={{item}} state=latest
     with_items:

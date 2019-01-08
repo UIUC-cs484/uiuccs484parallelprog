@@ -1,0 +1,17 @@
+#%Module 1.0
+#
+#
+#
+prereq			mpi
+prepend-path 		PATH 		/opt/charm-6.9.0/bin
+prepend-path 		LD_LIBRARY_PATH /opt/charm-6.9.0/lib
+setenv 			AMPI_BIN		/opt/charm-6.9.0/bin
+#setenv			AMPI_SYSCONFIG	/etc/mpich-3.2-x86_64
+#setenv			AMPI_FORTRAN_MOD_DIR	/usr/lib64/gfortran/modules/mpich-3.2-x86_64
+setenv			AMPI_INCLUDE	/opt/charm-6.9.0/include
+setenv	 		AMPI_LIB		/opt/charm-6.9.0/lib
+#setenv			AMPI_MAN		/usr/share/man/mpich-3.2
+#setenv			AMPI_PYTHON_SITEARCH	/usr/lib64/python2.7/site-packages/mpich-3.2
+#setenv			AMPI_COMPILER	mpich-3.2-x86_64
+#setenv			AMPI_SUFFIX	_mpich-3.2
+#setenv	 		AMPI_HOME	/usr/lib64/mpich-3.2

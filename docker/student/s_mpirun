@@ -1,0 +1,42 @@
+#!/bin/bash
+
+MY_NODEFILE=${PBS_NODEFILE}
+PPN=1
+
+#
+# bash command line parsing example at : https://stackoverflow.com/a/14203146
+#
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    -f)
+    MY_NODEFILE="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -launcher)
+    shift #ignore launcher
+    shift
+    ;;
+    -ppn)
+    PPN="$2"
+    shift
+    shift
+    ;;
+    *)    # unknown option
+    POSITIONAL+=("$1") # save it in an array for later
+    shift # past argument
+    ;;
+esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+
+uniq -c $MY_NODEFILE | awk '{ print $2":"$1 ; }' > ./nodefile.tmp
+
+mpirun -launcher manual -ppn ${PPN} -f ./nodefile.tmp ${*} | awk -F': ' '!/HYDRA/ { hostline[FNR] = gensub(/:.+/, "", $1); hostprocs[FNR] = gensub(/.*?:/, "", $1); } /HYDRA_LAUNCH:/ { system("ssh -o \"StrictHostKeyChecking=no\" -o \"UserKnownHostsFile /dev/null\" -o \"LogLevel ERROR\" " hostline[FNR] " \" /projects/cs/cs484/sing_exec.sh " $2 " \" &"); } /HYDRA_LAUNCH_END/,1==0 { print $0; }' ./nodefile.tmp -
+
+
