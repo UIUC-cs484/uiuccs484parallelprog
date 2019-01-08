@@ -8,7 +8,7 @@ LABEL maintainer="Bryan J. Lunt <bjlunt2@illinois.edu>"
 #https://askubuntu.com/a/318476
 RUN echo "kernel.randomize_va_space = 0" > /etc/sysctl.d/01-disable-aslr.conf
 
-RUN yum update -y \
+RUN yum update-minimal -y \
 	&& yum install -y ansible \
 && yum clean all && rm -rf /var/cache/yum
 
@@ -17,10 +17,10 @@ ADD ./vmfarm/ /root/vmfarm/
 ADD ./ansiblehosts /etc/ansible/hosts
 RUN ansible-playbook ./vmfarm/basepkgs.yml
 RUN ansible-playbook ./vmfarm/cmake_installer.yml
-RUN ansible-playbook ./vmfarm/gtest.yml
-RUN ansible-playbook ./vmfarm/gbench.yml
-#RUN ansible-playbook ./vmfarm/hpctoolkitall.yml
-RUN ansible-playbook ./vmfarm/charm.yml
+RUN ansible-playbook ./vmfarm/gtest.yml && rm -rf /tmp/gtest
+RUN ansible-playbook ./vmfarm/gbench.yml && rm -rf /tmp/gbench
+RUN ansible-playbook ./vmfarm/charm.yml && rm -rf /tmp/charm*
+#RUN ansible-playbook ./vmfarm/hpctoolkitall.yml && rm -rf /tmp/hpctoolkit*
 
 VOLUME ["/mnt/hostshared"]
 

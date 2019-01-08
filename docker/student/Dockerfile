@@ -1,4 +1,4 @@
-FROM centos:7.5.1804
+FROM cs484_base
 MAINTAINER <bjlunt2@illinois.edu>
 LABEL maintainer="Bryan J. Lunt <bjlunt2@illinois.edu>"
 

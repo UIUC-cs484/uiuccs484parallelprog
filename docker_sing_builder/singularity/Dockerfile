@@ -5,11 +5,15 @@ LABEL maintainer="Bryan J. Lunt <bjlunt2@illinois.edu>"
 USER root
 
 
-RUN yum update -y \
-	&& yum install -y docker gcc libarchive-devel squashfs-tools make \
-	&& yum clean all && rm -rf /var/cache/yum
+
 
 ADD ./singinstall.sh /root/
+
+RUN yum update -y \
+	&& yum install -y which squashfs-tools e2fsprogs \
+	&& yum install -y docker gcc libarchive-devel make  \
+	&& yum clean all && rm -rf /var/cache/yum
+
 RUN bash /root/singinstall.sh
 
 RUN yum install -y docker
