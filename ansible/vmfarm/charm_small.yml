@@ -10,12 +10,17 @@
   - name: Open that archive
     unarchive:
       src: /tmp/charm-6.9.0.tar.gz
-      dest: /opt/
+      dest: /tmp/
   - name: Build Charm++
-    shell: PATH=/usr/lib64/mpich-3.2/bin:${PATH} LD_LIBRARY_PATH=/usr/lib64/mpich-3.2/lib:${LD_LIBRARY_PATH} MPI_HOME=/usr/lib64/mpich-3.2 ./build AMPI mpi-linux-x86_64 mpicxx --with-production
+    shell: PATH=/usr/lib64/mpich-3.2/bin:${PATH} LD_LIBRARY_PATH=/usr/lib64/mpich-3.2/lib:${LD_LIBRARY_PATH} MPI_HOME=/usr/lib64/mpich-3.2 ./build AMPI mpi-linux-x86_64   mpicxx   --with-production
     args:
-      chdir: /opt/charm-6.9.0/
+      chdir: /tmp/charm-6.9.0/
       creates: /tmp/charm-6.9.0/bin
+  - name: Install Charm++
+    shell: make DESTDIR=/opt/charm-6.9.0 install
+    args:
+      chdir: /tmp/charm-6.9.0/tmp
+      creates: /opt/charm-6.9.0/bin
 
 - hosts: admin
   remote_user: root
@@ -23,7 +28,7 @@
   tasks:
   - name: Package charm++
     archive:
-      path: /opt/charm-6.9.0
+      path: /tmp/charm-6.9.0
       dest: /tmp/charm-6.9.0-local-dist.tgz
 
 - hosts: students

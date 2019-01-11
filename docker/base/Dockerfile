@@ -15,7 +15,7 @@ RUN yum update-minimal -y \
 WORKDIR /root/
 ADD ./vmfarm/ /root/vmfarm/
 ADD ./ansiblehosts /etc/ansible/hosts
-RUN ansible-playbook ./vmfarm/basepkgs.yml
+RUN ansible-playbook ./vmfarm/basepkgs.yml && yum clean all && rm -rf /var/cache/yum
 RUN ansible-playbook ./vmfarm/cmake_installer.yml
 RUN ansible-playbook ./vmfarm/gtest.yml && rm -rf /tmp/gtest
 RUN ansible-playbook ./vmfarm/gbench.yml && rm -rf /tmp/gbench
