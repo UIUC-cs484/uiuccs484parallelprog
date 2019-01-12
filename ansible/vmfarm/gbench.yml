@@ -18,6 +18,8 @@
       dest: /tmp/gbench/
   - name: Prepare to build
     shell: cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX:PATH=/usr ../benchmark-1.4.1
+    environment:
+      PATH: /opt/rh/devtoolset-7/root/bin:{{ ansible_env.PATH }}
     args:
       chdir: /tmp/gbench/build
       creates: /tmp/gbench/build/Makefile

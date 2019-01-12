@@ -8,7 +8,11 @@
       repo: https://github.com/HPCToolkit/hpctoolkit-externals.git
       dest: /tmp/hpctoolkit-externals
   - name: Configure HPCToolkit externals
-    shell: bash ./configure --prefix=/opt/hpctoolkit/externals
+    shell: ./configure --prefix=/opt/hpctoolkit/externals
+    environment:
+      MPI_HOME: /usr/lib64/mpich-3.2
+      LD_LIBRARY_PATH: /usr/lib64/mpich-3.2/lib:{{ ansible_env.LD_LIBRARY_PATH }}
+      PATH: /opt/rh/devtoolset-7/root/bin:/usr/lib64/mpich-3.2/bin:{{ ansible_env.PATH }}
     args:
       chdir: /tmp/hpctoolkit-externals
       creates: /tmp/hpctoolkit-externals/Makefile
@@ -26,7 +30,11 @@
         repo: https://github.com/HPCToolkit/libmonitor.git
         dest: /tmp/libmonitor
   - name: Configure libmonitor
-    shell: bash ./configure --prefix=/opt/hpctoolkit
+    shell: ./configure --prefix=/opt/hpctoolkit
+    environment:
+      MPI_HOME: /usr/lib64/mpich-3.2
+      LD_LIBRARY_PATH: /usr/lib64/mpich-3.2/lib:{{ ansible_env.LD_LIBRARY_PATH }}
+      PATH: /opt/rh/devtoolset-7/root/bin:/usr/lib64/mpich-3.2/bin:{{ ansible_env.PATH }}
     args:
       chdir: /tmp/libmonitor
       creates: /tmp/libmonitor/Makefile
@@ -45,6 +53,10 @@
         dest: /tmp/hpctoolkit
   - name: Configure HPCToolkit
     shell: MPICC=mpicc MPIF77=mpif77 ./configure --prefix=/opt/hpctoolkit --with-libmonitor=/opt/hpctoolkit --with-externals=/opt/hpctoolkit/externals --with-bzip=/usr --with-papi=/usr
+    environment:
+      MPI_HOME: /usr/lib64/mpich-3.2
+      LD_LIBRARY_PATH: /usr/lib64/mpich-3.2/lib:{{ ansible_env.LD_LIBRARY_PATH }}
+      PATH: /opt/rh/devtoolset-7/root/bin:/usr/lib64/mpich-3.2/bin:{{ ansible_env.PATH }}
     args:
         chdir: /tmp/hpctoolkit
         creates: /tmp/hpctoolkit/Makefile

@@ -12,7 +12,11 @@
       src: /tmp/charm-6.9.0.tar.gz
       dest: /opt/
   - name: Build Charm++
-    shell: PATH=/usr/lib64/mpich-3.2/bin:${PATH} LD_LIBRARY_PATH=/usr/lib64/mpich-3.2/lib:${LD_LIBRARY_PATH} MPI_HOME=/usr/lib64/mpich-3.2 ./build AMPI mpi-linux-x86_64 mpicxx --with-production
+    shell: MPI_HOME=/usr/lib64/mpich-3.2 ./build AMPI mpi-linux-x86_64 mpicxx --with-production
+    environment:
+      MPI_HOME: /usr/lib64/mpich-3.2
+      LD_LIBRARY_PATH: /usr/lib64/mpich-3.2/lib:{{ ansible_env.LD_LIBRARY_PATH }}
+      PATH: /opt/rh/devtoolset-7/root/bin:/usr/lib64/mpich-3.2/bin:{{ ansible_env.PATH }}
     args:
       chdir: /opt/charm-6.9.0/
       creates: /tmp/charm-6.9.0/bin

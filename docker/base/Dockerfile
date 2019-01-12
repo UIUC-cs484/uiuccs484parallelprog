@@ -13,14 +13,17 @@ RUN yum update-minimal -y \
 && yum clean all && rm -rf /var/cache/yum
 
 WORKDIR /root/
-ADD ./vmfarm/ /root/vmfarm/
 ADD ./ansiblehosts /etc/ansible/hosts
+ADD ./vmfarm/basepkgs.yml /root/vmfarm/
 RUN ansible-playbook ./vmfarm/basepkgs.yml && yum clean all && rm -rf /var/cache/yum
+#splitting the add apart like this prevents rebuilding the earlier steps.
+ADD ./vmfarm/ /root/vmfarm/
+ENV PATH="/opt/rh/devtoolset-7/root/bin:/usr/lib64/mpich-3.2/bin:${PATH}"
 RUN ansible-playbook ./vmfarm/cmake_installer.yml
 RUN ansible-playbook ./vmfarm/gtest.yml && rm -rf /tmp/gtest
 RUN ansible-playbook ./vmfarm/gbench.yml && rm -rf /tmp/gbench
 RUN ansible-playbook ./vmfarm/charm.yml && rm -rf /tmp/charm*
-#RUN ansible-playbook ./vmfarm/hpctoolkitall.yml && rm -rf /tmp/hpctoolkit*
+RUN ansible-playbook ./vmfarm/hpctoolkitall.yml && rm -rf /tmp/hpctoolkit*
 
 VOLUME ["/mnt/hostshared"]
 

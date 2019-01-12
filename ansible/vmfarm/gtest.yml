@@ -18,6 +18,8 @@
       dest: /tmp/gtest/
   - name: Prepare to build
     shell: cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX:PATH=/usr ../googletest-release-1.8.1
+    environment:
+      PATH: /opt/rh/devtoolset-7/root/bin:{{ ansible_env.PATH }}
     args:
       chdir: /tmp/gtest/build
       creates: /tmp/gtest/build/Makefile

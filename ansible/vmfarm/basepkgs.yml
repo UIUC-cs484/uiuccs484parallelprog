@@ -7,6 +7,10 @@
     yum:
       name: screen
       state: latest
+  - name: Install Environment Modules.
+    yum:
+      name: environment-modules
+      state: latest
   - name: basic pkgs
     yum: pkg={{item}} state=latest
     with_items:
@@ -40,12 +44,31 @@
      - libcurl
      - libcurl-devel
      - rsync
-  - name: compilers
-    yum: pkg={{item}} state=latest
-    with_items:
-     - gcc
-     - gcc-c++
-     - gcc-gfortran
+  - name: Newer Compilers
+    block:
+        - name: CentOS SCL
+          yum:
+            name: centos-release-scl
+            state: latest
+        - name: SCL Devtools
+          yum: pkg={{item}} state=latest
+          with_items:
+            - devtoolset-7-all
+            - llvm-toolset-7
+            - llvm-toolset-7-libomp
+            - llvm-toolset-7-libomp-devel
+        - name: profile.d entry for devtoolset-7
+          copy:
+            dest: /etc/profile.d/devtoolset.sh
+            content: |
+              source /opt/rh/devtoolset-7/enable
+
+        - name: profile.d entry for llvm-toolset-7
+          copy:
+            dest: /etc/profile.d/llvmtoolset.sh
+            content: |
+              source /opt/rh/llvm-toolset-7/enable
+
   - name: build tools
     yum: pkg={{item}} state=latest
     with_items:
@@ -57,12 +80,6 @@
      - libtool-ltdl
      - libtool-ltdl-devel
      - pkgconfig
-  - name: debuggers
-    yum: pkg={{item}} state=latest
-    with_items:
-     - gdb
-     - lldb
-     - valgrind
   - name: low level program binary manipulation
     yum: pkg={{item}} state=latest
     with_items:
