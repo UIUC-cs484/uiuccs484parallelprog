@@ -10,14 +10,13 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #end snippet
 ##
 
-BASE_VERSION="v0.7"
-TEST_VERSION="v0.7"
-CHARM_VERSION="v0.7"
-STUD_VERSION="v0.7"
+BASE_VERSION="v0.7.1"
+TEST_VERSION="v0.7.1"
+CHARM_VERSION="v0.7.1"
+STUD_VERSION="v0.7.1"
 
 #Base machine, now with everything.
 cp ${SCRIPT_DIR}/../ansible/vmfarm/* ${SCRIPT_DIR}/base/vmfarm/
-docker build -t cs484_base -t uiuccs484parallelprog/cs484_base:latest -t uiuccs484parallelprog/cs484_base:${BASE_VERSION} ${SCRIPT_DIR}/base
-rm ${SCRIPT_DIR}/base/vmfarm/*.yml
-
+docker build -t cs484_base -t uiuccs484parallelprog/cs484_base:latest -t uiuccs484parallelprog/cs484_base:${BASE_VERSION} ${SCRIPT_DIR}/base && \
+rm ${SCRIPT_DIR}/base/vmfarm/*.yml && \
 docker build -t cs484_student -t uiuccs484parallelprog/cs484_student:latest -t uiuccs484parallelprog/cs484_student:${STUD_VERSION} ${SCRIPT_DIR}/student

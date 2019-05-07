@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#needs libarchive-devel
+#needs squashfs-tools
+
 VER=2.5.2
 curl -L -O https://github.com/singularityware/singularity/releases/download/$VER/singularity-$VER.tar.gz
 tar xvf singularity-$VER.tar.gz

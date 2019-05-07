@@ -8,16 +8,16 @@
       path: /tmp/gbench/build
       state: directory
       mode: 700
-  - name: Get Google Test
+  - name: Get Google Benchmark
     get_url:
-      url: https://github.com/google/benchmark/archive/v1.4.1.tar.gz
+      url: https://github.com/bryan-lunt-supercomputing/benchmark/archive/v1.4.1-omp2.tar.gz
       dest: /tmp/gbench/v1.4.1.tar.gz
   - name: Open that archive
     unarchive:
       src: /tmp/gbench/v1.4.1.tar.gz
       dest: /tmp/gbench/
   - name: Prepare to build
-    shell: cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX:PATH=/usr ../benchmark-1.4.1
+    shell: cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX:PATH=/usr ../benchmark-1.4.1-omp2
     environment:
       PATH: /opt/rh/devtoolset-7/root/bin:{{ ansible_env.PATH }}
     args:
