@@ -10,10 +10,10 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #end snippet
 ##
 
-BASE_VERSION="v0.7.1"
-TEST_VERSION="v0.7.1"
-CHARM_VERSION="v0.7.1"
-STUD_VERSION="v0.7.1"
+BASE_VERSION="v0.7.2"
+TEST_VERSION="v0.7.2"
+CHARM_VERSION="v0.7.2"
+STUD_VERSION="v0.7.2"
 
 #Base machine, now with everything.
 cp ${SCRIPT_DIR}/../ansible/vmfarm/* ${SCRIPT_DIR}/base/vmfarm/

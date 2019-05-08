@@ -57,6 +57,8 @@
             - llvm-toolset-7
             - llvm-toolset-7-libomp
             - llvm-toolset-7-libomp-devel
+            - llvm-toolset-7-lldb
+            - llvm-toolset-7-python-lldb
         - name: profile.d entry for devtoolset-7
           copy:
             dest: /etc/profile.d/devtoolset.sh

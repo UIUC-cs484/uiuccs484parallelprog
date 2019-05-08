@@ -17,7 +17,7 @@
       src: /tmp/gbench/v1.4.1.tar.gz
       dest: /tmp/gbench/
   - name: Prepare to build
-    shell: cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX:PATH=/usr ../benchmark-1.4.1-omp2
+    shell: cmake -DCMAKE_BUILD_TYPE=RELEASE -DBENCHMARK_ENABLE_GTEST_TESTS=OFF -DCMAKE_INSTALL_PREFIX:PATH=/usr ../benchmark-1.4.1-omp2
     environment:
       PATH: /opt/rh/devtoolset-7/root/bin:{{ ansible_env.PATH }}
     args:
