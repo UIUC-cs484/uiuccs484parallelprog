@@ -37,6 +37,7 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 
 uniq -c $MY_NODEFILE | awk '{ print $2":"$1 ; }' > ./nodefile.tmp
 
+#TODO: Newer versions of SINGULARITY tell us where the image file is.
+#	Use that capability to detect the image file, and default to a hard-coded
+#	path.
 mpirun -launcher manual -ppn ${PPN} -f ./nodefile.tmp ${*} | awk -F': ' '!/HYDRA/ { hostline[FNR] = gensub(/:.+/, "", $1); hostprocs[FNR] = gensub(/.*?:/, "", $1); } /HYDRA_LAUNCH:/ { system("ssh -o \"StrictHostKeyChecking=no\" -o \"UserKnownHostsFile /dev/null\" -o \"LogLevel ERROR\" " hostline[FNR] " \" /projects/cs/cs484/sing_exec.sh " $2 " \" &"); } /HYDRA_LAUNCH_END/,1==0 { print $0; }' ./nodefile.tmp -
-
-
