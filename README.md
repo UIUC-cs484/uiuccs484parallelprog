@@ -59,3 +59,30 @@ rm -rf /tmp/gtest /tmp/gbench  /tmp/charm* /tmp/hpctoolkit*
 yum clean all && rm -rf /var/cache/yum
 
 ```
+
+## Docker container building
+
+*You probably don't have to do this. Be absolutely certain beforehand.*
+
+To begin with, you shouldn't need to do this unless you have altered the Ansible scripts that build something in the container.
+
+If future generations of TAs decide to use a newer version of Charm or to radically change the environment for the MPs, it may be necessary to build new docker containers. Otherwise, please find working Docker containers at <https://hub.docker.com/u/uiuccs484parallelprog> assignments should be done using the `uiuccs484parallelprog/cs484_student` container.
+
+### Building docker containers
+
+You can build the docker containers by cloning this repo, then running
+
+```bash
+bash ./docker/build.sh
+```
+*STOP*
+If you have altered the Ansible or Docker scripts, you should increment the version number for the docker image. The version number is in the script `./docker/build.sh` .
+
+If you are logged in to docker hub and a member of the group `uiuccs484parallelprog`, you can push these images to make them available to the world.
+
+
+## Singularity container building
+
+*Hopefully you don't have to do this. If you update the docker container, then you may need to.*
+
+TODO: Write this.

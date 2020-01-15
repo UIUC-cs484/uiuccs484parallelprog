@@ -1,6 +1,9 @@
 # Building Singularity container
 
-
+Currently, you have to build the singularity containers manually on the commandline.
+Perhaps the new version of Singularity no longer needs you to have root access to build, but previously it did.
+I always used the VMFarm machine as the place to build singularity containers.
+Hopefully you won't have to at all.
 
 
 ##authentication to dockerhub
