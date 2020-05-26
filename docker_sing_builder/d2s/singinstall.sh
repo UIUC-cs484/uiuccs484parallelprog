@@ -3,8 +3,11 @@
 #needs libarchive-devel
 #needs squashfs-tools
 
-VER=2.5.2
-curl -L -O https://github.com/singularityware/singularity/releases/download/$VER/singularity-$VER.tar.gz
+#https://github.com/hpcng/singularity/releases/download/v3.5.3/singularity-3.5.3.tar.gz
+
+
+VER=3.5.3
+curl -L -O https://github.com/hpcng/singularity/releases/download/v$VER/singularity-$VER.tar.gz
 tar xvf singularity-$VER.tar.gz
 pushd singularity-$VER
 ./configure --prefix=/usr/local --sysconfdir=/etc

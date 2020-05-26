@@ -12,6 +12,9 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 IMAGE_TO_CONVERT="uiuccs484parallelprog/cs484_student"
 
+#Need the one from quay.io : quay.io/singularityware/docker2singularity
+#https://quay.io/repository/singularity/docker2singularity
+#
 CONVERTER_IMAGE="singularityware/docker2singularity"
 
 
@@ -21,4 +24,5 @@ docker run --privileged \
 -v /var/run/docker.sock:/var/run/docker.sock \
 -v ${temp_directory}:/tmp \
 -v ${PWD}:/output \
+--privileged -t --rm \
 ${CONVERTER_IMAGE} ${IMAGE_TO_CONVERT}

@@ -49,7 +49,7 @@
   tasks:
   - name: Get HPCToolkit
     git:
-        repo: https://github.com/HPCToolkit/hpctoolkit
+        repo: https://github.com/HPCToolkit/hpctoolkit.git
         dest: /tmp/hpctoolkit
   - name: Configure HPCToolkit
     shell: MPICC=mpicc MPIF77=mpif77 ./configure --prefix=/opt/hpctoolkit --with-libmonitor=/opt/hpctoolkit --with-externals=/opt/hpctoolkit/externals --with-bzip=/usr --with-papi=/usr

@@ -1,0 +1,10 @@
+---
+- hosts: all
+  remote_user: root
+
+  tasks:
+  - name: boost pkgs
+    yum: pkg={{item}} state=latest
+    with_items:
+     - boost
+     - boost-devel

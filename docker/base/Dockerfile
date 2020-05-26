@@ -23,7 +23,8 @@ RUN ansible-playbook ./vmfarm/cmake_installer.yml
 RUN ansible-playbook ./vmfarm/gtest.yml && rm -rf /tmp/gtest
 RUN ansible-playbook ./vmfarm/gbench.yml && rm -rf /tmp/gbench
 RUN ansible-playbook ./vmfarm/charm.yml && rm -rf /tmp/charm*
-RUN ansible-playbook ./vmfarm/hpctoolkitall.yml && rm -rf /tmp/hpctoolkit*
+#RUN ansible-playbook ./vmfarm/hpctoolkitall.yml && rm -rf /tmp/hpctoolkit*
+RUN yum update-minimal -y && ansible-playbook ./vmfarm/boost.yml && yum clean all && rm -rf /var/cache/yum/
 
 VOLUME ["/mnt/hostshared"]
 
