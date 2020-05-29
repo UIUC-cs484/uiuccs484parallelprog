@@ -15,7 +15,7 @@ IMAGE_TO_CONVERT="uiuccs484parallelprog/cs484_student"
 #Need the one from quay.io : quay.io/singularityware/docker2singularity
 #https://quay.io/repository/singularity/docker2singularity
 #
-CONVERTER_IMAGE="singularityware/docker2singularity"
+CONVERTER_IMAGE="quay.io/singularityware/docker2singularity"
 
 
 temp_directory=$( mktemp -d /tmp/tmp_singbuild.XXXXXXX )
