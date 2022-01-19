@@ -1,0 +1,62 @@
+---
+- hosts: all
+  remote_user: root
+
+  tasks:
+  - name: Install the latest version of the screen utility.
+    yum:
+      name: screen
+      state: latest
+  - name: Install Environment Modules.
+    yum:
+      name: environment-modules
+      state: latest
+  - name: basic pkgs
+    yum:
+        state: present
+        name:
+         - coreutils
+         - file
+         - patch
+         - which
+         - less
+  - name: compression pkgs
+    yum:
+        state: present
+        name:
+         - bzip2
+         - bzip2-libs
+         - bzip2-devel
+         - zip
+         - unzip
+  - name: editors
+    yum:
+        state: present
+        name:
+         - vim
+         - emacs
+  - name: git
+    yum:
+        state: latest
+        name: git
+  - name: file sync
+    yum:
+        state: latest
+        name:
+         - wget
+         - curl
+         - libcurl
+         - libcurl-devel
+         - rsync
+  - name: build tools
+    yum:
+        state: latest
+        name:
+         - make
+         - m4
+         - automake
+         - autoconf
+         - libtool
+         - libtool-ltdl
+         - libtool-ltdl-devel
+         - pkgconfig

@@ -1,0 +1,81 @@
+---
+- hosts: all
+  remote_user: root
+
+  tasks:
+  - name: Compilers
+    block:
+        - name: CentOS SCL
+          yum:
+            name: centos-release-scl
+            state: latest
+        - name: SCL Devtools
+          yum:
+              state: latest
+              name:
+                - devtoolset-7-all
+                - llvm-toolset-7
+                - llvm-toolset-7-libomp
+                - llvm-toolset-7-libomp-devel
+                - llvm-toolset-7-lldb
+                - llvm-toolset-7-python-lldb
+        - name: profile.d entry for devtoolset-7
+          copy:
+            dest: /etc/profile.d/devtoolset.sh
+            content: |
+              source /opt/rh/devtoolset-7/enable
+
+        - name: profile.d entry for llvm-toolset-7
+          copy:
+            dest: /etc/profile.d/llvmtoolset.sh
+            content: |
+              source /opt/rh/llvm-toolset-7/enable
+
+  - name: build tools
+    yum:
+        state: latest
+        name:
+         - make
+         - m4
+         - automake
+         - autoconf
+         - libtool
+         - libtool-ltdl
+         - libtool-ltdl-devel
+         - pkgconfig
+  - name: Debug Tools
+    block:
+      - name: low level program binary manipulation
+        yum:
+            state: latest
+            name:
+             - binutils
+             - binutils-devel
+             - elfutils-libelf
+             - elfutils-libelf-devel
+             - libdwarf
+             - libdwarf-tools
+             - libdwarf-devel
+      - name: unwind low level tracing
+        yum:
+            state: latest
+            name:
+             - libunwind
+             - libunwind-devel
+      - name: pAPI
+        yum:
+            state: latest
+            name:
+             - papi
+             - papi-devel
+             - papi-static
+      - name: perf
+        yum:
+            state: latest
+            name:
+             - perf
+             - libpfm
+             - libpfm-devel
+             - libpfm-static
+             - python-perf
+             - libpfm-python

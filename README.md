@@ -49,7 +49,9 @@ SSH to the admin machine, clone this repo and run the following commands. (These
 
 ```bash
 
-ansible-playbook ./ansible/vmfarm/basepkgs.yml
+ansible-playbook ./ansible/vmfarm/0_basepkgs.yml
+ansible-playbook ./ansible/vmfarm/0a_disable_aslr.yml
+ansible-playbook ./ansible/vmfarm/0b_mpi.yml
 ansible-playbook ./ansible/vmfarm/cmake_installer.yml
 ansible-playbook ./ansible/vmfarm/gtest.yml
 ansible-playbook ./ansible/vmfarm/gbench.yml

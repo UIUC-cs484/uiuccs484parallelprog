@@ -1,0 +1,12 @@
+---
+- hosts: all
+  remote_user: root
+
+  tasks:
+  - name: mpich-3.2
+    yum:
+        state: latest
+        name:
+         - mpich-3.2
+         - mpich-3.2-devel
+         - mpich-3.2-autoload

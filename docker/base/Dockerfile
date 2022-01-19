@@ -21,17 +21,27 @@ RUN yum update -y \
 
 WORKDIR /root/
 ADD ./ansiblehosts /etc/ansible/hosts
-ADD ./vmfarm/basepkgs.yml /root/vmfarm/
-RUN ansible-playbook ./vmfarm/basepkgs.yml && yum clean all && rm -rf /var/cache/yum
-#splitting the add apart like this prevents rebuilding the earlier steps.
 ADD ./vmfarm/ /root/vmfarm/
+
+##### Disable ASLR #####
+# This has no effect on Docker, but is kept for completeness, to match the VMFarm setup.
+# We _want_ this, if it were possible to have
+#RUN ansible-playbook ./vmfarm/0a_disable_aslr.yml
+
+#### Base System Packages
+RUN ansible-playbook ./vmfarm/0_basepkgs.yml && yum clean all && rm -rf /var/cache/yum
+RUN ansible-playbook ./vmfarm/0b_mpi.yml && yum clean all && rm -rf /var/cache/yum
+
+### Dev Tools, Debug Tools, Useful Packages ####
+RUN ansible-playbook ./vmfarm/1_devtools.yml
+#splitting the add apart like this prevents rebuilding the earlier steps.
 ENV PATH="/opt/rh/devtoolset-7/root/bin:/usr/lib64/mpich-3.2/bin:${PATH}"
 RUN ansible-playbook ./vmfarm/cmake_installer.yml
 RUN ansible-playbook ./vmfarm/gtest.yml && rm -rf /tmp/gtest
 RUN ansible-playbook ./vmfarm/gbench.yml && rm -rf /tmp/gbench
 RUN ansible-playbook ./vmfarm/charm.yml && rm -rf /tmp/charm*
 #RUN ansible-playbook ./vmfarm/hpctoolkitall.yml && rm -rf /tmp/hpctoolkit*
-RUN yum update-minimal -y && ansible-playbook ./vmfarm/boost.yml && yum clean all && rm -rf /var/cache/yum/
+RUN ansible-playbook ./vmfarm/boost.yml && yum clean all && rm -rf /var/cache/yum/
 
 VOLUME ["/mnt/hostshared"]
 
