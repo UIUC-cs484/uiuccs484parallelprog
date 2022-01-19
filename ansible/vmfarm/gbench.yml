@@ -10,16 +10,16 @@
       mode: 700
   - name: Get Google Benchmark
     get_url:
-      url: https://github.com/bryan-lunt-supercomputing/benchmark/archive/v1.4.1-omp2.tar.gz
-      dest: /tmp/gbench/v1.4.1.tar.gz
+      url: https://github.com/google/benchmark/archive/refs/tags/v1.6.1.tar.gz
+      dest: /tmp/gbench/v1.6.1.tar.gz
   - name: Open that archive
     unarchive:
-      src: /tmp/gbench/v1.4.1.tar.gz
+      src: /tmp/gbench/v1.6.1.tar.gz
       dest: /tmp/gbench/
   - name: Prepare to build
-    shell: cmake -DCMAKE_BUILD_TYPE=RELEASE -DBENCHMARK_ENABLE_GTEST_TESTS=OFF -DCMAKE_INSTALL_PREFIX:PATH=/usr ../benchmark-1.4.1-omp2
+    shell: cmake -DCMAKE_BUILD_TYPE=RELEASE -DBENCHMARK_ENABLE_GTEST_TESTS=OFF -DCMAKE_INSTALL_PREFIX:PATH=/usr ../benchmark-1.6.1
     environment:
-      PATH: /opt/rh/devtoolset-7/root/bin:{{ ansible_env.PATH }}
+      PATH: /opt/rh/devtoolset-7/root/bin:{{ ansible_env.PATH | default('') }}
     args:
       chdir: /tmp/gbench/build
       creates: /tmp/gbench/build/Makefile
@@ -51,7 +51,7 @@
       dest: /tmp/gbench
   - name: Need source too
     unarchive:
-        src: /tmp/gbench/v1.4.1.tar.gz
+        src: /tmp/gbench/v1.6.1.tar.gz
         dest: /tmp/gbench
   - name: Install googletest
     make:

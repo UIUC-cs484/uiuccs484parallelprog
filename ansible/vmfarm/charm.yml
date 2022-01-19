@@ -12,11 +12,11 @@
       src: /tmp/charm-6.9.0.tar.gz
       dest: /opt/
   - name: Build Charm++
-    shell: MPI_HOME=/usr/lib64/mpich-3.2 ./build AMPI mpi-linux-x86_64 mpicxx --with-production
+    shell: ./build AMPI mpi-linux-x86_64 mpicxx --with-production
     environment:
       MPI_HOME: /usr/lib64/mpich-3.2
-      LD_LIBRARY_PATH: /usr/lib64/mpich-3.2/lib:{{ ansible_env.LD_LIBRARY_PATH }}
-      PATH: /opt/rh/devtoolset-7/root/bin:/usr/lib64/mpich-3.2/bin:{{ ansible_env.PATH }}
+      LD_LIBRARY_PATH: "/usr/lib64/mpich-3.2/lib:{{ ansible_env.LD_LIBRARY_PATH | default('') }}"
+      PATH: /opt/rh/devtoolset-7/root/bin:/usr/lib64/mpich-3.2/bin:{{ ansible_env.PATH | default('') }}
     args:
       chdir: /opt/charm-6.9.0/
       creates: /tmp/charm-6.9.0/bin
@@ -25,7 +25,7 @@
   remote_user: root
 
   tasks:
-  - name: Package charm++
+  - name: Package Charm++
     archive:
       path: /opt/charm-6.9.0
       dest: /tmp/charm-6.9.0-local-dist.tgz
@@ -34,7 +34,7 @@
   remote_user: root
 
   tasks:
-  - name: Install HPCToolkit
+  - name: Install Charm++
     unarchive:
       src: /tmp/charm-6.9.0-local-dist.tgz
       dest: /opt/
