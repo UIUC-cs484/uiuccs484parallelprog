@@ -1,4 +1,4 @@
-FROM centos:7.5.1804
+FROM centos:7.9.2009
 MAINTAINER <bjlunt2@illinois.edu>
 LABEL maintainer="Bryan J. Lunt <bjlunt2@illinois.edu>"
 
@@ -13,9 +13,9 @@ RUN echo "kernel.randomize_va_space = 0" > /etc/sysctl.d/01-disable-aslr.conf
 #Need Ansible (We use the ansible scripts to make sure the docer/Singularity
 #               will alwasy track the VMFarm. Prevents duplicate configuration.)
 # https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-centos-7
-# 
 #
-RUN yum update-minimal -y \
+#
+RUN yum update -y \
 	&& yum install -y ansible \
 && yum clean all && rm -rf /var/cache/yum
 
