@@ -12,38 +12,42 @@
       name: environment-modules
       state: latest
   - name: basic pkgs
-    yum: pkg={{item}} state=latest
-    with_items:
-     - coreutils
-     - file
-     - patch
-     - which
-     - less
+    yum:
+        state: present
+        name:
+         - coreutils
+         - file
+         - patch
+         - which
+         - less
   - name: compression pkgs
-    yum: pkg={{item}} state=latest
-    with_items:
-     - bzip2
-     - bzip2-libs
-     - bzip2-devel
-     - zip
-     - unzip
+    yum:
+        state: present
+        name:
+         - bzip2
+         - bzip2-libs
+         - bzip2-devel
+         - zip
+         - unzip
   - name: editors
-    yum: pkg={{item}} state=latest
-    with_items:
-     - vim
-     - emacs
+    yum:
+        state: present
+        name:
+         - vim
+         - emacs
   - name: git
     yum:
-        name: git
         state: latest
+        name: git
   - name: file sync
-    yum: pkg={{item}} state=latest
-    with_items:
-     - wget
-     - curl
-     - libcurl
-     - libcurl-devel
-     - rsync
+    yum:
+        state: latest
+        name:
+         - wget
+         - curl
+         - libcurl
+         - libcurl-devel
+         - rsync
   - name: Newer Compilers
     block:
         - name: CentOS SCL
@@ -51,14 +55,15 @@
             name: centos-release-scl
             state: latest
         - name: SCL Devtools
-          yum: pkg={{item}} state=latest
-          with_items:
-            - devtoolset-7-all
-            - llvm-toolset-7
-            - llvm-toolset-7-libomp
-            - llvm-toolset-7-libomp-devel
-            - llvm-toolset-7-lldb
-            - llvm-toolset-7-python-lldb
+          yum:
+              state: latest
+              name:
+                - devtoolset-7-all
+                - llvm-toolset-7
+                - llvm-toolset-7-libomp
+                - llvm-toolset-7-libomp-devel
+                - llvm-toolset-7-lldb
+                - llvm-toolset-7-python-lldb
         - name: profile.d entry for devtoolset-7
           copy:
             dest: /etc/profile.d/devtoolset.sh
@@ -72,49 +77,55 @@
               source /opt/rh/llvm-toolset-7/enable
 
   - name: build tools
-    yum: pkg={{item}} state=latest
-    with_items:
-     - make
-     - m4
-     - automake
-     - autoconf
-     - libtool
-     - libtool-ltdl
-     - libtool-ltdl-devel
-     - pkgconfig
+    yum:
+        state: latest
+        name:
+         - make
+         - m4
+         - automake
+         - autoconf
+         - libtool
+         - libtool-ltdl
+         - libtool-ltdl-devel
+         - pkgconfig
   - name: low level program binary manipulation
-    yum: pkg={{item}} state=latest
-    with_items:
-     - binutils
-     - binutils-devel
-     - elfutils-libelf
-     - elfutils-libelf-devel
-     - libdwarf
-     - libdwarf-tools
-     - libdwarf-devel
+    yum:
+        state: latest
+        name:
+         - binutils
+         - binutils-devel
+         - elfutils-libelf
+         - elfutils-libelf-devel
+         - libdwarf
+         - libdwarf-tools
+         - libdwarf-devel
   - name: unwind low level tracing
-    yum: pkg={{item}} state=latest
-    with_items:
-     - libunwind
-     - libunwind-devel
+    yum:
+        state: latest
+        name:
+         - libunwind
+         - libunwind-devel
   - name: pAPI
-    yum: pkg={{item}} state=latest
-    with_items:
-     - papi
-     - papi-devel
-     - papi-static
+    yum:
+        state: latest
+        name:
+         - papi
+         - papi-devel
+         - papi-static
   - name: perf
-    yum: pkg={{item}} state=latest
-    with_items:
-     - perf
-     - libpfm
-     - libpfm-devel
-     - libpfm-static
-     - python-perf
-     - libpfm-python
+    yum:
+        state: latest
+        name:
+         - perf
+         - libpfm
+         - libpfm-devel
+         - libpfm-static
+         - python-perf
+         - libpfm-python
   - name: mpich-3.2
-    yum: pkg={{item}} state=latest
-    with_items:
-     - mpich-3.2
-     - mpich-3.2-devel
-     - mpich-3.2-autoload
+    yum:
+        state: latest
+        name:
+         - mpich-3.2
+         - mpich-3.2-devel
+         - mpich-3.2-autoload

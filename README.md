@@ -14,7 +14,9 @@ sudo yum install ansible
 
 Depending on your setup, you may have a single VM, or you may have an administrative VM and several student VMs.
 
-In either case, you will need to create a file named `/etc/ansible/hosts/ansiblehosts` on the admin machine (or single machine).
+In either case, you will need to create a file named `/etc/ansible/hosts` (or in older versions of Ansible, `/etc/ansible/hosts/ansiblehosts`) on the admin machine (or single machine).
+
+https://docs.ansible.com/ansible/2.9/
 
 ### Single VM
 

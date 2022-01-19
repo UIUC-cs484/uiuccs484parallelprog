@@ -4,7 +4,8 @@
 
   tasks:
   - name: boost pkgs
-    yum: pkg={{item}} state=latest
-    with_items:
-     - boost
-     - boost-devel
+    yum:
+        state: latest
+        name:
+         - boost
+         - boost-devel
