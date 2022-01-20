@@ -1,9 +1,7 @@
-FROM centos:7.9.2009
+# syntax=docker/dockerfile:1
+FROM centos:7.9.2009 AS cs484_build
 MAINTAINER <bjlunt2@illinois.edu>
 LABEL maintainer="Bryan J. Lunt <bjlunt2@illinois.edu>"
-
-ARG CHARM_VERSION_ARG 6.9.0
-ENV CHARM_VERSION ${CHARM_VERSION_ARG}
 
 #this important line disables ASLR, which while good for security, causes a problem for debugging.
 #Unfortunately, it has no effect in docker.
@@ -12,7 +10,7 @@ RUN echo "kernel.randomize_va_space = 0" > /etc/sysctl.d/01-disable-aslr.conf
 
 
 #
-#Need Ansible (We use the ansible scripts to make sure the docer/Singularity
+#Need Ansible (We use the ansible scripts to make sure the docker/Singularity
 #               will alwasy track the VMFarm. Prevents duplicate configuration.)
 # https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-centos-7
 #
@@ -52,12 +50,19 @@ RUN ansible-playbook ./vmfarm/boost.yml && yum clean all && rm -rf /var/cache/yu
 RUN ansible-playbook ./vmfarm/gtest.yml && rm -rf /tmp/gtest
 RUN ansible-playbook ./vmfarm/gbench.yml && rm -rf /tmp/gbench
 
-RUN ansible-playbook ./vmfarm/charm.yml && rm -rf /tmp/charm*
 #RUN ansible-playbook ./vmfarm/hpctoolkitall.yml && rm -rf /tmp/hpctoolkit*
+
+FROM cs484_base AS cs484_base
+
+ARG CHARM_VERSION_ARG="6.9.0"
+ENV CHARM_VERSION=${CHARM_VERSION_ARG}
+
+RUN ansible-playbook ./vmfarm/charm.yml --extra-vars "charm_version=${CHARM_VERSION}" && rm -rf /tmp/charm*
 
 VOLUME ["/mnt/hostshared"]
 
 USER root
 
 ADD ./charm/charm-6.9.0 /etc/modulefiles/charm/6.9.0
+#ADD ./charm/charm-7.0.0 /etc/modulefiles/charm/7.0.0
 ADD ./charm/z_charm.sh /etc/profile.d/z_charm.sh

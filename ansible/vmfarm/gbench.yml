@@ -1,6 +1,8 @@
 ---
 - hosts: admin
   remote_user: root
+  vars:
+    - gbench_version: "1.6.1"
 
   tasks:
   - name: Create gbench build directory
@@ -10,14 +12,14 @@
       mode: 700
   - name: Get Google Benchmark
     get_url:
-      url: https://github.com/google/benchmark/archive/refs/tags/v1.6.1.tar.gz
-      dest: /tmp/gbench/v1.6.1.tar.gz
+      url: https://github.com/google/benchmark/archive/refs/tags/v{{ gbench_version }}.tar.gz
+      dest: /tmp/gbench/v{{ gbench_version }}.tar.gz
   - name: Open that archive
     unarchive:
-      src: /tmp/gbench/v1.6.1.tar.gz
+      src: /tmp/gbench/v{{ gbench_version }}.tar.gz
       dest: /tmp/gbench/
   - name: Prepare to build
-    shell: cmake -DCMAKE_BUILD_TYPE=RELEASE -DBENCHMARK_ENABLE_GTEST_TESTS=OFF -DCMAKE_INSTALL_PREFIX:PATH=/usr ../benchmark-1.6.1
+    shell: cmake -DCMAKE_BUILD_TYPE=RELEASE -DBENCHMARK_ENABLE_GTEST_TESTS=OFF -DCMAKE_INSTALL_PREFIX:PATH=/usr ../benchmark-{{ gbench_version }}
     environment:
       PATH: /opt/rh/devtoolset-7/root/bin:{{ ansible_env.PATH | default('') }}
     args:
@@ -38,6 +40,8 @@
 
 - hosts: students
   remote_user: root
+  vars:
+    - gbench_version: "1.6.1"
 
   tasks:
   - name: Create gbench build directory
@@ -51,7 +55,7 @@
       dest: /tmp/gbench
   - name: Need source too
     unarchive:
-        src: /tmp/gbench/v1.6.1.tar.gz
+        src: /tmp/gbench/v{{ gbench_version }}.tar.gz
         dest: /tmp/gbench
   - name: Install googletest
     make:

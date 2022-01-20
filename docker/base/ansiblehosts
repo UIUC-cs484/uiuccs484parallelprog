@@ -1,4 +1,4 @@
 [admin]
 localhost ansible_connection=local
-[all]
+[students]
 localhost ansible_connection=local

@@ -1,40 +1,47 @@
 ---
 - hosts: admin
   remote_user: root
+  vars:
+      charm_version: "6.9.0"
+      charm_build_args: "AMPI mpi-linux-x86_64 mpicxx --with-production"
 
   tasks:
   - name: Get Charm++
     get_url:
-      url: http://charm.cs.illinois.edu/distrib/charm-6.9.0.tar.gz
-      dest: /tmp/charm-6.9.0.tar.gz
+      url: http://charm.cs.illinois.edu/distrib/charm-{{ charm_version }}.tar.gz
+      dest: /tmp/charm-{{ charm_version }}.tar.gz
   - name: Open that archive
     unarchive:
-      src: /tmp/charm-6.9.0.tar.gz
+      src: /tmp/charm-{{ charm_version }}.tar.gz
       dest: /opt/
   - name: Build Charm++
-    shell: ./build AMPI mpi-linux-x86_64 mpicxx --with-production
+    shell: ./build {{ charm_build_args }}
     environment:
       MPI_HOME: /usr/lib64/mpich-3.2
       LD_LIBRARY_PATH: "/usr/lib64/mpich-3.2/lib:{{ ansible_env.LD_LIBRARY_PATH | default('') }}"
       PATH: /opt/rh/devtoolset-7/root/bin:/usr/lib64/mpich-3.2/bin:{{ ansible_env.PATH | default('') }}
     args:
-      chdir: /opt/charm-6.9.0/
-      creates: /tmp/charm-6.9.0/bin
+      chdir: "/opt/charm-{{ 'v' if charm_version is version('7.0.0','>=') else '' }}{{ charm_version }}/"
+      creates: /tmp/charm-{{ 'v' if charm_version is version('7.0.0','>=') else '' }}{{ charm_version }}/bin
 
 - hosts: admin
   remote_user: root
+  vars:
+      charm_version: "6.9.0"
 
   tasks:
   - name: Package Charm++
     archive:
-      path: /opt/charm-6.9.0
-      dest: /tmp/charm-6.9.0-local-dist.tgz
+      path: /opt/charm-{{ 'v' if charm_version is version('7.0.0','>=') else '' }}{{ charm_version }}
+      dest: /tmp/charm-{{ 'v' if charm_version is version('7.0.0','>=') else '' }}{{ charm_version }}-local-dist.tgz
 
 - hosts: students
   remote_user: root
+  vars:
+      charm_version: "6.9.0"
 
   tasks:
   - name: Install Charm++
     unarchive:
-      src: /tmp/charm-6.9.0-local-dist.tgz
+      src: /tmp/charm-{{ 'v' if charm_version is version('7.0.0','>=') else '' }}{{ charm_version }}-local-dist.tgz
       dest: /opt/

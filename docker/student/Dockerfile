@@ -4,8 +4,8 @@ LABEL maintainer="Bryan J. Lunt <bjlunt2@illinois.edu>"
 
 USER root
 
-ADD ./s_mpirun /usr/local/bin/
-RUN chmod 555 /usr/local/bin/s_mpirun
+#ADD ./s_mpirun /usr/local/bin/
+#RUN chmod 555 /usr/local/bin/s_mpirun
 
 #
 #We need these directories for when this image gets converted to Singularity
