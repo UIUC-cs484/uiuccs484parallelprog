@@ -52,7 +52,7 @@ RUN ansible-playbook ./vmfarm/gbench.yml && rm -rf /tmp/gbench
 
 #RUN ansible-playbook ./vmfarm/hpctoolkitall.yml && rm -rf /tmp/hpctoolkit*
 
-FROM cs484_base AS cs484_base
+FROM cs484_build AS cs484_base
 
 ARG CHARM_VERSION_ARG="6.9.0"
 ENV CHARM_VERSION=${CHARM_VERSION_ARG}
