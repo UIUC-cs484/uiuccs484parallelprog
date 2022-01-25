@@ -1,6 +1,9 @@
 #!/bin/bash
 
+ROSTER_FILE=$1
 #ADD BASHRC AND BASH PROFILE INTO VARS
+DEST_DIRECTORY="/srv/home"
+STUDENT_GROUP="csvm484-cls"
 
 
 read -r -d '' BASH_PROF << EOFBP
@@ -77,13 +80,16 @@ EOFBRC
 
 #END LOAD BASHRC AND BASH PROFILE INTO VARS
 
-for i in `cat $1`
+for i in $(cat ${ROSTER_FILE})
 do
-  /usr/bin/mkdir $i
-  /usr/bin/chmod 700 $i
-  /bin/echo "$BASH_PROF" >> $i/.bash_profile
-  /bin/echo "$BASH_RC" >> $i/.bashrc
-  chown -Rv $i:csvm484-cls $i
+  one_user_home="${DEST_DIRECTORY}/$i"
+  if [ ! -d ${one_user_home} ]
+  then
+      #ensure this code isn't run accidentally.
+      /usr/bin/mkdir ${one_user_home}
+      /usr/bin/chmod 700 ${one_user_home}
+      /bin/echo "$BASH_PROF" >> ${one_user_home}/.bash_profile
+      /bin/echo "$BASH_RC" >> ${one_user_home}/.bashrc
+      chown -Rv ${i}:${STUDENT_GROUP} ${one_user_home}
+  fi
 done
-
-
