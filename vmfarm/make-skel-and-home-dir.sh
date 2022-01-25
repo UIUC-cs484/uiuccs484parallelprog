@@ -85,6 +85,7 @@ do
   one_user_home="${DEST_DIRECTORY}/$i"
   if [ ! -d ${one_user_home} ]
   then
+      echo "Making home directory for ${i}"
       #ensure this code isn't run accidentally.
       /usr/bin/mkdir ${one_user_home}
       /usr/bin/chmod 700 ${one_user_home}
